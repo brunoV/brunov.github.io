@@ -1,5 +1,6 @@
 ---
 title: New Blog
+layout: post
 ---
 
 I decided to start blogging again. A lot of stuff has happened since I [last
