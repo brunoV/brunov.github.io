@@ -1,0 +1,10 @@
+---
+title: New Blog
+---
+
+I decided to start blogging again. A lot of stuff has happened since I [last
+tried][blogger]!
+
+Stay tuned.
+
+[blogger]: http://zerothorder.blogspot.com

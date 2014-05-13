@@ -1,0 +1,19 @@
+---
+title: "Superloading Devel::REPL"
+layout: "post"
+permalink: "/2009/05/superloading-develrepl.html"
+uuid: "7594092449035923021"
+guid: "tag:blogger.com,1999:blog-903262963771971357.post-7594092449035923021"
+date: "2009-05-25 20:55:00"
+updated: "2009-05-25 21:11:31"
+description: 
+blogger:
+    siteid: "903262963771971357"
+    postid: "7594092449035923021"
+    comments: "2"
+categories: [Autouse, 'Devel::REPL', perl]
+---
+
+<div class="css-full-post-content js-full-post-content">
+Today I bumped into <a href="http://search.cpan.org/%7Eadamk/Class-Autouse-1.29/lib/Class/Autouse.pm">Class::Autouse</a>, pointed by <a href="http://search.cpan.org/%7Erjbs/App-Cmd-0.203/lib/App/Cmd.pm">App::Cmd</a>'s docs. Essentially, it lets you defer the importing of a module until the code actually tries to use it. So, for instance, if you have:<br /><br /><script src="http://gist.github.com/117747.js"></script><br />The program will load Deps 1..10 before executing Dep:2's constructor. However, with<br /><br /><script src="http://gist.github.com/117748.js"></script><br />Only Dep::2 will be use-d before the instantiation of <span style="font-family:courier new;">$thing</span>.<br /><br />This can be very useful in cases where an application's flow can take several different routes, and might not use all of its functionality in a single invocation. <a href="http://padre.perlide.org/wiki">Padre</a>, the Perl IDE, for example, makes extensive use of this module exactly for this reason.<br /><br />But another cool feature of this library is its '<span style="font-weight: bold;">:superloader</span>' option. It allows you to import dependencies on the fly without explicitly saying so. For example:<br /><br /><script src="http://gist.github.com/117749.js"></script><br />Here, we don't predeclare any class in particular, we just use it. Notice that I said "class" and not "module"; this only works for object oriented libraries, ie., classes.<br /><br />What's most useful about this is that it can be very convenient in cases where you don't know beforehand what classes you will be needing. In particular, I think this is a perfect addition to my <a href="http://search.cpan.org/%7Eoliver/Devel-REPL-1.003006/lib/Devel/REPL.pm">Devel::REPL</a> configuration file:<br /><br /><script src="http://gist.github.com/117750.js"></script><br />and then:<br /><br /><script src="http://gist.github.com/117751.js"></script><br />Since I'm mostly doing exploration and debugging when using the REPL, correctness is not an issue, and not having to load things beforehand increases the whipuptitude and overall improves the coding experience.
+</div>

@@ -1,0 +1,19 @@
+---
+title: "Baby Haskell and Good Old Perl"
+layout: "post"
+permalink: "/2009/11/after-drinking-functional-immutable-and.html"
+uuid: "3343457290026541395"
+guid: "tag:blogger.com,1999:blog-903262963771971357.post-3343457290026541395"
+date: "2009-11-24 16:14:00"
+updated: "2009-11-24 17:12:23"
+description: 
+blogger:
+    siteid: "903262963771971357"
+    postid: "3343457290026541395"
+    comments: "16"
+categories: [project euler, haskell, perl, ironman]
+---
+
+<div class="css-full-post-content js-full-post-content">
+I finally drank the <a href="http://blog.woobling.org/2009/11/functional-programming-and-unreasonable.html">functional</a>, <a href="http://blog.woobling.org/2009/05/immutable-data-structures.html">immutable</a> and <a href="http://blog.woobling.org/2009/11/restricted-perl.html"> pure</a> koolaid and started reading <a href="http://www.iro.umontreal.ca/~lapalme/Algorithms-functional.html">some</a> Haskell <a href="http://learnyouahaskell.com/chapters">books</a>. And to exercise a bit, I began to tackle some of the problems from <a href="http://projecteuler.net/">project Euler.</a><br /><br />Problem 10 states: "Find the sum of all primes less than 2,000,000".<br /><br />After finding out that it's only necessary to check for divisors less than the square root of the number, I blatantly stole this version from the <a href="http://www.haskell.org/haskellwiki/Haskell">Haskell Wiki</a>:<br /><br /><script src="http://gist.github.com/241964.js?file=gistfile1.hs"></script><br />If this doesn't give you a nerdgasm, I don't know what will. It creates an infinite list of primes by filtering an infinite list of odd numbers with the isPrime function. This function, in turn, uses the primes list itself to look for potential divisors. So basically, the list is defined recursively. <br /><br />The solution then boils down to getting all primes smaller than two million from the infinite list, summing them and outputting the result.<br /><br />Anyway, this beautiful solution got me wondering how the perl version would look. Here is my first attempt:<br /><br /><script src="http://gist.github.com/241965.js?file=gistfile1.pl"></script><br />Ugh. I mean, it's not <em>that</em> bad, it has some interesting things going on like having an infinite stream of primes, but after being embelished by the Haskell version, this seems uninspired at best.<br /><br />But then I thought that being CPAN (and not syntax) Perl's strength, I should take a look there. After no more than 30 seconds of searching, I found <a href="http://search.cpan.org/~bubaflub/Math-Primality-0.04/lib/Math/Primality.pm">Math::Primality</a>. Look how the Perl 5 version looks now:<br /><br /><script src="http://gist.github.com/241968.js?file=gistfile1.pl"></script><br />This put a smile on my face. Perl may not be the most beautiful language around, but it has a JFDI attitude that I have yet to find elsewhere.
+</div>
