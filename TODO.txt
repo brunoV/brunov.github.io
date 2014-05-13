@@ -1,0 +1,10 @@
+# posts
+I'd like to start with the throttler post
+Or maybe with the Raft post? I think it should be very short and to the point.
+
+
+# blog meta
+Custom domain
+Add link to original post in migrated entries
+Google analytics
+Spruce up the design, I think it needs something. Maybe try with tom's theme?
