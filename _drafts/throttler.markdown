@@ -1,5 +1,5 @@
 ---
-title: "Throttler: a Clojure library for simple rate limiting"
+title: "Throttler: a Clojure library for rate limiting"
 layout: post
 categories: clojure
 ---
@@ -44,21 +44,28 @@ Here's how you can throttle a whole API with Throttler:
 
 {% endhighlight%}
 
-What happened here? We created a *function throttler* with a goal rate, and
-applied it to the three functions in the API. Now you can call the slow
-versions of *any* of the three functions, in any proportion, and their
-*overall* rate will never be beyond what the user specified.
+What happened here? We created a *function throttler* with a goal rate,
+`api-throttler`, and applied it to the three functions in the API. Now you can
+call the slow versions of *any* of the three functions, in any proportion, and
+their *overall* rate will never be beyond what you specified.
 
-You can also throttle core.async channels. Using *throttle-chan*, you can give
-it an input channel and a goal rate, and you'll get an output channel that will
+You can also throttle core.async channels. `throttle-chan` will take
+an input channel and a goal rate, and you'll get an output channel that will
 forward all messages sent to the input channel at the desired rate:
 
 {% highlight clojure %}
 (def in (chan 1))
-(def slow-chan (throttle-chan in 1 :millisecond)) ; 1 msg/ms
+(def slow-out (throttle-chan in 10 :second))
 
 (>!! in :hi) ; => true
-(<!! slow-chan) ; => :hi
+(<!! slow-out) ; => :hi
+
+(time
+ (dotimes [_ 50]
+  (>!! in :hi)
+  (<!! slow-out)))
+;  => "Elapsed time: 4893.739 msecs (10.2 msgs/sec)"
+
 {% endhighlight %}
 
 ## Burstiness
@@ -72,7 +79,7 @@ twice, the second request would have to wait for 8 seconds. So both of your call
 would take no less than 8 seconds to finish! This is because, by default,
 Throttler enforces the goal rate with a millisecond granularity. At any moment
 you can pick a random time interval, and the number of calls in that time range
-would be close to the goal rate.
+will be close to the goal rate.
 
 In this case though, we'd like to just keep ourselves under the maximum number
 of requests per day without caring too much about occasional request bursts.
