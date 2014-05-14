@@ -140,7 +140,7 @@ In code, this looks like this:
 
 This is what the [data](/assets/bursty.txt) looks like:
 
-![image](/assets/bursty-resized.png)
+![image](/assets/bursty.png)
 
 As you can see, the bursty function saves up tokens during inactive periods and
 is able to rapid fire after that. The invocations right after sleeping (steps 3
