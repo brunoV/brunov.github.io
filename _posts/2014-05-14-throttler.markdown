@@ -73,7 +73,7 @@ What happened here? We created a *function throttler* with a goal rate,
 call the slow versions of *any* of the three functions, in any proportion, and
 their *overall* rate will never be beyond what you specified.
 
-The same can be achieved with channels, using the `chan-throttler` function.
+The same can be achieved with channels, using the [`chan-throttler`][chan-throttler] function.
 
 ## Burstiness
 
@@ -177,6 +177,7 @@ Enjoy!
 [throttle-chan]: http://brunov.org/throttler/throttler.core.html#var-throttle-chan
 [throttle-fn]:   http://brunov.org/throttler/throttler.core.html#var-throttle-fn
 [fn-throttler]:  http://brunov.org/throttler/throttler.core.html#var-fn-throttler
+[chan-throttler]: http://brunov.org/throttler/throttler.core.html#var-chan-throttler
 [core-async]:    https://github.com/clojure/core.async
 [pipe]:          http://clojure.github.io/core.async/#clojure.core.async/pipe
 [token-bucket]:  http://en.wikipedia.org/wiki/Token_bucket
