@@ -17,8 +17,32 @@ Here's an example, straight from the library docs:
 (time (dotimes [_ 200] (+# 1 1))) ; "Elapsed time: 4245.121 msecs (47/second)"
 {% endhighlight %}
 
-So we can control the maximum number of times a function is executed per unit
-of time. This works even if the function is called from several threads.
+The new function `+#` is equivalent to `+`, except that it runs at a measly 50
+invocations per second.
+
+The same goes for core.async channels. [`throttle-chan`][throttle-chan] takes
+an input channel and a goal rate, and returns an output channel that will emit
+all messages sent to the input channel at the desired rate:
+
+{% highlight clojure %}
+(def in (chan 1))
+(def slow-out (throttle-chan in 10 :second))
+
+(>!! in :hi) ; => true
+(<!! slow-out) ; => :hi
+
+(time
+ (dotimes [_ 50]
+  (>!! in :hi)
+  (<!! slow-out)))
+;  => "Elapsed time: 4893.739 msecs (10.2 msgs/sec)"
+
+{% endhighlight %}
+
+This is equivalent to [`core.aysnc/pipe`][pipe], but with a controlled output
+rate.
+
+## Shared throttling
 
 You can also limit the *combined rate* of a group of functions. Let's say you
 want to throttle your own usage of an external service that you don't control.
@@ -49,24 +73,7 @@ What happened here? We created a *function throttler* with a goal rate,
 call the slow versions of *any* of the three functions, in any proportion, and
 their *overall* rate will never be beyond what you specified.
 
-You can also throttle core.async channels. `throttle-chan` will take
-an input channel and a goal rate, and you'll get an output channel that will
-forward all messages sent to the input channel at the desired rate:
-
-{% highlight clojure %}
-(def in (chan 1))
-(def slow-out (throttle-chan in 10 :second))
-
-(>!! in :hi) ; => true
-(<!! slow-out) ; => :hi
-
-(time
- (dotimes [_ 50]
-  (>!! in :hi)
-  (<!! slow-out)))
-;  => "Elapsed time: 4893.739 msecs (10.2 msgs/sec)"
-
-{% endhighlight %}
+The same can be achieved with channels, using the `chan-throttler` function.
 
 ## Burstiness
 
@@ -79,16 +86,17 @@ twice, the second request would have to wait for 8 seconds. So both of your call
 would take no less than 8 seconds to finish! This is because, by default,
 Throttler enforces the goal rate with a millisecond granularity. At any moment
 you can pick a random time interval, and the number of calls in that time range
-will be close to the goal rate.
+will be at most goal rate.
 
 In this case though, we'd like to just keep ourselves under the maximum number
 of requests per day without caring too much about occasional request bursts.
 
 What we need is a *bursty throttler*. The intuition is, if you haven't used a
-throttled function or channel in a while, then you get "credits", or "tokens". Later, if you
-need to make some calls in quick succession, you use these credits and the calls
-execute right away. This is the main idea behind the [Token-Bucket
-algorithm][token-bucket], which is how Throttler supports burstiness.
+throttled function or channel in a while, then you get "credits", or "tokens".
+Later, if you need to make some calls in quick succession, you use these
+credits and the calls execute right away. This is the main idea behind the
+[Token-Bucket algorithm][token-bucket], which is how Throttler supports
+burstiness.
 
 To create a bursty function or channel, you simply pass an extra argument
 stating how many *tokens* you are allowed to save up:
@@ -162,7 +170,11 @@ negligible time to run). And thanks to [core-async], the implementation is
 
 I hope you find it useful!
 
-[repo]:         https://github.com/brunoV/throttler
-[impl]:         https://github.com/brunoV/throttler/blob/master/src/throttler/core.clj
-[core-async]:   https://github.com/clojure/core.async
+[repo]:          https://github.com/brunoV/throttler
+[impl]:          https://github.com/brunoV/throttler/blob/master/src/throttler/core.clj
+[throttle-chan]: http://brunov.org/throttler/throttler.core.html#var-throttle-chan
+[throttle-fn]:   http://brunov.org/throttler/throttler.core.html#var-throttle-fn
+[fn-throttler]:  http://brunov.org/throttler/throttler.core.html#var-fn-throttler
+[core-async]:    https://github.com/clojure/core.async
+[pipe]:          http://clojure.github.io/core.async/#clojure.core.async/pipe
 [token-bucket]: http://en.wikipedia.org/wiki/Token_bucket
