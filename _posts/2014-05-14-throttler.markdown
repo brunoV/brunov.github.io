@@ -162,13 +162,12 @@ you.
 ## Summary
 
 [Throttler][repo] makes it easy for you to flexibly control the throughput of
-functions and channels if you ever need to do so. It's lightweight, precise
-over a very wide range of goal rates and fully asynchronous (it does not
-require dedicated OS threads nor it assumes that the wrapped function takes
-negligible time to run). And thanks to [core-async], the implementation is
-[quite short][impl].
+functions and channels. It's lightweight, precise over a very wide range of
+goal rates and fully asynchronous (it does not require dedicated OS threads nor
+it assumes that the wrapped function takes negligible time to run). And thanks
+to [core-async], the implementation is [quite short][impl].
 
-I hope you find it useful!
+Enjoy!
 
 [repo]:          https://github.com/brunoV/throttler
 [impl]:          https://github.com/brunoV/throttler/blob/master/src/throttler/core.clj
