@@ -3,7 +3,7 @@ title: Bruno Vecchi
 email: vecchi.b@gmail.com
 description: "I write software for a living. It's a real job mom, I swear."
 baseurl: ""
-url: "http://brunoV.github.io"
+url: "http://brunov.org"
 
 # Build settings
 markdown: kramdown
@@ -11,10 +11,3 @@ permalink: pretty
 
 username: brunoV
 twitter_username: brunovi
-
-defaults:
-  -
-    scope:
-      path: ""
-    values:
-      layout: post
