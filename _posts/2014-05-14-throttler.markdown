@@ -162,18 +162,22 @@ you.
 ## Summary
 
 [Throttler][repo] makes it easy for you to flexibly control the throughput of
-functions and channels. It's lightweight, precise over a very wide range of
-goal rates and fully asynchronous (it does not require dedicated OS threads nor
-it assumes that the wrapped function takes negligible time to run). And thanks
-to [core-async], the implementation is [quite short][impl].
+functions and channels. It's lightweight, [precise over a very wide range of
+goal rates][bench] and fully asynchronous (it does not require dedicated OS
+threads nor it assumes that the wrapped function takes negligible time to run).
+And thanks to [core-async], the implementation is [quite short][impl].
 
 Enjoy!
 
+*Comments? Let me know on [Twitter][twitter].*
+
 [repo]:          https://github.com/brunoV/throttler
+[bench]:         https://github.com/brunoV/throttler#throughput-accuracy-over-a-wide-range-of-rates
 [impl]:          https://github.com/brunoV/throttler/blob/master/src/throttler/core.clj
 [throttle-chan]: http://brunov.org/throttler/throttler.core.html#var-throttle-chan
 [throttle-fn]:   http://brunov.org/throttler/throttler.core.html#var-throttle-fn
 [fn-throttler]:  http://brunov.org/throttler/throttler.core.html#var-fn-throttler
 [core-async]:    https://github.com/clojure/core.async
 [pipe]:          http://clojure.github.io/core.async/#clojure.core.async/pipe
-[token-bucket]: http://en.wikipedia.org/wiki/Token_bucket
+[token-bucket]:  http://en.wikipedia.org/wiki/Token_bucket
+[twitter]:       https://twitter.com/BrunoVi
