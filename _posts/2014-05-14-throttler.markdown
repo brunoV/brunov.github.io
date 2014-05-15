@@ -86,7 +86,7 @@ twice, the second request would have to wait for 8 seconds. So both of your call
 would take no less than 8 seconds to finish! This is because, by default,
 Throttler enforces the goal rate with a millisecond granularity. At any moment
 you can pick a random time interval, and the number of calls in that time range
-will be at most goal rate.
+will be at most the goal rate.
 
 In this case though, we'd like to just keep ourselves under the maximum number
 of requests per day without caring too much about occasional request bursts.
